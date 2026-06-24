@@ -24,10 +24,10 @@ pipeline {
                     } else {
                         switch(params.environnement) {
                             case "environment2":
-                                result = sh(script: "newman run ${collectionFile} --environment environment2.json", returnStatus: true)
+                                result = sh(script: "newman run ${collectionFile} --environment env/environment2.json", returnStatus: true)
                                 break
                             case "environment3":
-                                result = sh(script: "newman run ${collectionFile} --environment environment3.json", returnStatus: true)
+                                result = sh(script: "newman run ${collectionFile} --environment env/environment3.json", returnStatus: true)
                                 break
                             default:
                                 error("Environnement inconnu : ${params.environnement}")
