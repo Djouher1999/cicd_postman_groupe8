@@ -21,15 +21,16 @@ pipeline {
                     if (params.benvironnement == false) {
                         sh "newman run ${collectionFile}"
                     } else {
-                        switch(collectionFile) {
-                            case collection2:
+                        switch(params.environnement) {
+                            case "environment2":
                                 sh "newman run ${collectionFile} --environment environment2.json"
-                            break
-                            case collection3:
+                                break
+                            case "environment3":
                                 sh "newman run ${collectionFile} --environment environment3.json"
-                            break
+                                break
+                            default:
+                                error("Environnement inconnu : ${params.environnement}")
                         }
-                        
                     }
                 }
             }
