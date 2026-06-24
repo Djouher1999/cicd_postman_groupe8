@@ -8,7 +8,7 @@ pipeline {
 
     parameters {
         booleanParam(name: 'benvironnement', defaultValue: true, description: 'avec ou sans environnement')
-        choice(name: 'environnement', choices: ['environment2', 'environment3'], description: 'Choisissez l environnement')
+        choice(name: 'environnement', choices: ['aucun''environment2', 'environment3'], description: 'Choisissez l environnement')
         choice(name: 'collection', choices: ['collection', 'collection2', 'collection3'], description: 'Choisissez la collection')
     }
 
@@ -17,20 +17,25 @@ pipeline {
             steps {
                 script {
                     def collectionFile = "${params.collection}.json"
+                    def result
 
                     if (params.benvironnement == false) {
-                        sh "newman run ${collectionFile}"
+                        result = sh(script: "newman run ${collectionFile}", returnStatus: true)
                     } else {
                         switch(params.environnement) {
                             case "environment2":
-                                sh "newman run ${collectionFile} --environment environment2.json"
+                                result = sh(script: "newman run ${collectionFile} --environment environment2.json", returnStatus: true)
                                 break
                             case "environment3":
-                                sh "newman run ${collectionFile} --environment environment3.json"
+                                result = sh(script: "newman run ${collectionFile} --environment environment3.json", returnStatus: true)
                                 break
                             default:
                                 error("Environnement inconnu : ${params.environnement}")
                         }
+                    }
+
+                    if (result != 0) {
+                        unstable("Newman a détecté des échecs de tests")
                     }
                 }
             }
