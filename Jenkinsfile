@@ -18,5 +18,15 @@ pipeline {
         }
     }
 
-    build job :'jenkinsfille2', wait : true
+     stages {
+        stage('lancer le job') {
+            steps {
+                script {
+                    build job :'jenkinsfille2', wait : true
+                }
+            }
+        }
+    }
+
+    
 }
