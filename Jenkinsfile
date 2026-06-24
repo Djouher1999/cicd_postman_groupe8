@@ -8,7 +8,7 @@ pipeline {
 
     parameters {
         booleanParam(name: 'benvironnement', defaultValue: true, description: 'avec ou sans environnement')
-        choice(name: 'environnement', choices: ['aucun''environment2', 'environment3'], description: 'Choisissez l environnement')
+        choice(name: 'environnement', choices: ['aucun', 'environment2', 'environment3'], description: 'Choisissez l environnement')
         choice(name: 'collection', choices: ['collection', 'collection2', 'collection3'], description: 'Choisissez la collection')
     }
 
@@ -19,7 +19,7 @@ pipeline {
                     def collectionFile = "${params.collection}.json"
                     def result
 
-                    if (params.benvironnement == false) {
+                    if (params.benvironnement == 'aucun') {
                         result = sh(script: "newman run collection.json", returnStatus: true)
                     } else {
                         switch(params.environnement) {
