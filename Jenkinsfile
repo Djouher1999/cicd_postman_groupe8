@@ -19,7 +19,7 @@ pipeline {
                     def collectionFile = "${params.collection}.json"
                     def result
 
-                    if (params.benvironnement == 'aucun') {
+                    if (params.benvironnement == false) {
                         result = sh(script: "newman run collection.json", returnStatus: true)
                     } else {
                         switch(params.environnement) {
