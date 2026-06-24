@@ -6,17 +6,17 @@ pipeline {
         }  
     }
 
+
+
     stages {
         stage('lancer le test') {
             steps {
                 script {
-                    echo "executer la premiere collection "
-                    sh "newman run collection.json"
+                    sh "newman run collection3.json -e env/environnement3"
+                        
+                    }
 
                 }
             }
         }
-    }
-
-    build job :'jenkinsfille2', wait : true
 }

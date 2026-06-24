@@ -1,0 +1,40 @@
+pipeline {
+    agent {
+        docker { 
+            image 'postman/newman:latest'
+            args '-u=root --entrypoint='
+        }  
+    }
+
+    parameters {
+        choice(name: 'environnement', choices: ['lesdeux', 'environment1', 'environment2'], description: 'Choisissez l environnement')
+
+    }
+
+    stages {
+        stage('lancer le test') {
+            steps {
+                script {
+                    switch(params.environnement) {
+                        case lesdeux :
+                            sh "newman run collection2.json -e env/environnement1"
+                            sh "newman run collection2.json -e env/environnement2"
+                        break
+
+                        case environment1 :
+                            sh "newman run collection2.json -e env/environnement1"
+                            
+                        break
+
+                        case environment2 :
+                            sh "newman run collection2.json -e env/environnement2"
+                        break
+                    }
+
+                }
+            }
+        }
+    }
+
+    build job :'jenkinsfille3', wait : true
+}
