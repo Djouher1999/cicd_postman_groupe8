@@ -20,7 +20,7 @@ pipeline {
                     def result
 
                     if (params.benvironnement == false) {
-                        result = sh(script: "newman run ${collectionFile}", returnStatus: true)
+                        result = sh(script: "newman run collection.json", returnStatus: true)
                     } else {
                         switch(params.environnement) {
                             case "environment2":
